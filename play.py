@@ -83,7 +83,7 @@ def main():
         for r in rem:
             pipes.remove(r)
 
-        if bird.y + bird.img.get_height() >= 730 or bird.y < 0:
+        if bird.y + bird.img .get_height() >= 730 or bird.y < 0:
             lost = True
 
         bird.move()

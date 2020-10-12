@@ -1,8 +1,6 @@
 import pygame
 import neat
-import time
 import os
-import random
 
 from base import Base
 from bird import Bird
@@ -10,6 +8,7 @@ from pipe import Pipe
 
 pygame.font.init()
 
+GEN_COUNTER = 0
 WIN_WIDTH = 500
 WIN_HEIGHT = 800
 STAT_FONT = pygame.font.SysFont("comicsans", 50)
@@ -17,11 +16,15 @@ STAT_FONT = pygame.font.SysFont("comicsans", 50)
 BG_IMG = pygame.transform.scale2x(pygame.image.load(os.path.join("imgs", "bg.png")))
 
 
-def draw_window(win, birds, pipes, base, score):
+def draw_window(win, birds, pipes, base, score, gen_count):
     win.blit(BG_IMG, (0, 0))
 
     text = STAT_FONT.render("Score: " + str(score), 1, (255, 255, 255))
     win.blit(text, (WIN_WIDTH - 10 - text.get_width(), 10))
+
+    gen_count = STAT_FONT.render("Generation: " + str(gen_count), 1, (255, 255, 255))
+    win.blit(text, (WIN_WIDTH - 10 - text.get_width(), 10))
+    win.blit(gen_count, (10, 10))
 
     for pipe in pipes:
         pipe.draw(win)
@@ -34,6 +37,8 @@ def draw_window(win, birds, pipes, base, score):
 
 
 def main(genomes, config):
+    global GEN_COUNTER
+    GEN_COUNTER += 1
     nets = []
     ge = []
     birds = []
@@ -113,7 +118,7 @@ def main(genomes, config):
                 ge.pop(x)
 
         base.move()
-        draw_window(win, birds, pipes, base, score)
+        draw_window(win, birds, pipes, base, score, GEN_COUNTER)
 
 
 def run(config_path):
